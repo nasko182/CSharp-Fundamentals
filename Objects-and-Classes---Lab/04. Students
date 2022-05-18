@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Students
+    {
+        public Students(string firstName, string lastName, int age, string homeTown)
+        {
+            this.firstName = firstName;
+            this.LastName = lastName;
+            this.age = age;
+            this.homeTown = homeTown;
+        }
+
+        public string firstName { get; set; }
+        public string LastName { get; set; }
+        public int age { get; set; }
+        public string homeTown { get; set; }
+
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Students> students = new List<Students>();
+            string command;
+            while ((command = Console.ReadLine()) != "end")
+            {
+                string[] cmdArgs = command.Split();
+                Students student = new Students(cmdArgs[0], cmdArgs[1], Convert.ToInt32(cmdArgs[2]), cmdArgs[3]);
+                students.Add(student);
+            }
+            string inputTown = Console.ReadLine();
+            foreach ( var student in students)
+            {
+                if (student.homeTown==inputTown)
+                {
+                    Console.WriteLine($"{student.firstName} {student.LastName} is {student.age} years old.");
+                }
+            }
+        }
+    }
+}

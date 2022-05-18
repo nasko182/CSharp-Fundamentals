@@ -1,0 +1,148 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        class Hero
+        {
+            public Hero(string name, int hp, int mp)
+            {
+                this.Name = name;
+                this.HP = hp;
+                this.MP = mp;
+            }
+            public string Name { get; set; }
+
+            public int HP { get; set; }
+
+            public int MP { get; set; }
+
+        }
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            List<Hero> heroes = new List<Hero>();
+            for (int i = 0; i < n; i++)
+            {
+                string[] proparties = Console.ReadLine().Split();
+                string name = proparties[0];
+                int hp = int.Parse(proparties[1]);
+                int mp = int.Parse(proparties[2]);
+                if (hp <= 100 && mp <= 200)
+                {
+                    Hero hero = new Hero(name, hp, mp);
+                    heroes.Add(hero);
+                }
+            }
+            string command;
+            while ((command = Console.ReadLine()) != "End")
+            {
+                string[] cmdArgs = command.Split(" - ");
+                string action = cmdArgs[0];
+                string heroName = cmdArgs[1];
+                Hero currentHero = heroes.Find(h => h.Name == heroName);
+                if (action == "CastSpell")
+                {
+                    CastSpell(cmdArgs,heroes);
+                }
+                else if (action == "TakeDamage")
+                {
+                    TakeDamege(cmdArgs,heroes);
+                }
+                else if (action == "Recharge")
+                {
+                    Recharge(cmdArgs,heroes);
+                }
+                else if (action == "Heal")
+                {
+                    Heal(cmdArgs,heroes);
+                }
+            }
+
+                foreach (Hero hero in heroes)
+                {
+                    Console.WriteLine(hero.Name);
+                    Console.WriteLine($"HP: {hero.HP}");
+                    Console.WriteLine($"MP: {hero.MP}");
+                }
+        }
+            static void CastSpell(string[] cmdArgs, List<Hero> heroes)
+            {
+                string heroName = cmdArgs[1];
+                Hero currentHero = heroes.Find(h => h.Name == heroName);
+                int mp = int.Parse(cmdArgs[2]);
+                string spellName = cmdArgs[3];
+                if (currentHero.MP >= mp)
+                {
+                    currentHero.MP -= mp;
+                    Console.WriteLine($"{heroName} has successfully cast {spellName} and now has {currentHero.MP} MP!");
+                }
+                else
+                {
+                    Console.WriteLine($"{heroName} does not have enough MP to cast {spellName}!");
+                }
+            }
+            static void TakeDamege(string[] cmdArgs,List<Hero> heroes)
+            {
+                string heroName = cmdArgs[1];
+                Hero currentHero = heroes.Find(h => h.Name == heroName);
+                int damage = int.Parse(cmdArgs[2]);
+                string attacker = cmdArgs[3];
+                if (currentHero.HP> damage)
+                {
+                    currentHero.HP -= damage;
+                    Console.WriteLine($"{heroName} was hit for {damage} HP by {attacker} and now has {currentHero.HP} HP left!");
+                }
+                else
+                {
+                    Console.WriteLine($"{heroName} has been killed by {attacker}!");
+                    heroes.Remove(currentHero);
+                }
+            }
+
+            static void Recharge(string[] cmdArgs, List<Hero> heroes)
+            {
+                string heroName = cmdArgs[1];
+                Hero currentHero = heroes.Find(h => h.Name == heroName);
+                int amountMP = int.Parse(cmdArgs[2]);
+                int increase = 0;
+                if (currentHero.MP+amountMP<=200)
+                {
+                    currentHero.MP+=amountMP;
+                    increase = amountMP;
+                }
+                else
+                {
+                    increase += 200 - currentHero.MP;
+                    currentHero.MP = 200;
+                }
+                Console.WriteLine($"{heroName} recharged for {increase} MP!");
+
+            }
+
+            static void Heal(string[] cmdArgs, List<Hero> heroes)
+            {
+                string heroName = cmdArgs[1];
+                Hero currentHero = heroes.Find(h => h.Name == heroName);
+                int amountHP = int.Parse(cmdArgs[2]);
+                int increase = 0;
+                if (currentHero.HP + amountHP <= 100)
+                {
+                    currentHero.HP += amountHP;
+                    increase = amountHP;
+                }
+                else
+                {
+                    increase += 100 - currentHero.HP;
+                    currentHero.HP = 100;
+                }
+                Console.WriteLine($"{heroName} healed for {increase} HP!");
+            }
+    }
+}

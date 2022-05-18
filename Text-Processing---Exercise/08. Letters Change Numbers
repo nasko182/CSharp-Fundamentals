@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] input = Console.ReadLine().Split(' ',StringSplitOptions.RemoveEmptyEntries);
+            double result = 0;
+            foreach (var item in input)
+            {
+                char firstLetter = item[0];
+                char lastLetter = item[item.Length - 1];
+                double currentResult = 0;
+                string word = item.Remove(0, 1);
+                word = word.Remove(item.Length - 2);
+                double number = int.Parse(word);
+                if (Char.IsUpper(firstLetter))
+                {
+                    number = number/GetLetterPosition(firstLetter);
+                }
+                else if (Char.IsLower(firstLetter))
+                {
+                    number = number*GetLetterPosition(firstLetter);
+                }
+                if (Char.IsUpper(lastLetter))
+                {
+                    currentResult=number-GetLetterPosition(lastLetter);
+                }
+                else if(Char.IsLower(lastLetter))
+                {
+                    currentResult = number+GetLetterPosition(lastLetter);
+                }
+                result += currentResult;
+            }
+            Console.WriteLine($"{result:f2}");
+        }
+        static int GetLetterPosition(char ch)
+        {
+            string word = ch.ToString();
+            word = word.ToLower();
+            int position = word[0] - 96;
+            return position;
+        }
+    }
+}

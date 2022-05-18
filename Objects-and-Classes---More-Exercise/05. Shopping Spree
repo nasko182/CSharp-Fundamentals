@@ -1,0 +1,105 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Person
+    {
+        public Person(string name, double Money)
+        {
+            this.Name = name;
+            this.Money = Money;
+        }
+        public string Name { get; set; } = string.Empty; 
+
+        public double Money { get; set; }
+
+        public bool IsBouthSomething { get; set; } = false;
+
+        public List<string> BoughtProducts { get; set; } = new List<string>();
+
+        public void AddProduct(string product)
+        {
+            BoughtProducts.Add(product);
+        }
+
+        
+    }
+
+    class Product
+    {
+        public Product(string type, double price)
+        {
+            this.Type = type;
+            this.Price = price;
+        }
+        public string Type { get; set; }
+
+        public double Price { get; set; }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            List<Person> persons = new List<Person>();
+            List<Product> products = new List<Product>();
+
+            string inputPersons = Console.ReadLine();
+            string[] humans = inputPersons
+                .Split(';', StringSplitOptions.RemoveEmptyEntries);
+            foreach (string human in humans)
+            {
+                string[] humanProp = human.Split('=', StringSplitOptions.RemoveEmptyEntries).ToArray();
+                Person person = new Person(humanProp[0], int.Parse(humanProp[1]));
+                persons.Add(person);
+            }
+            string inputProducts = Console.ReadLine();
+            string[] productsProp = inputProducts
+                .Split(';', StringSplitOptions.RemoveEmptyEntries);
+            foreach (string product in productsProp)
+            {
+                string[] productProp = product.Split('=', StringSplitOptions.RemoveEmptyEntries).ToArray();
+                Product newProduct = new Product(productProp[0], int.Parse(productProp[1]));
+                products.Add(newProduct);
+            }
+            string command;
+            while ((command = Console.ReadLine()) != "END")
+            {
+                string[] cmdArgs = command.Split();
+                string buyer = cmdArgs[0];
+                string product = cmdArgs[1];
+                
+                Person currentPerson = persons.Find(p => p.Name==buyer );
+                Product currentProduct = products.Find(p => p.Type == product);
+
+                if (currentProduct.Price <= currentPerson.Money)
+                {
+                    Console.WriteLine($"{currentPerson.Name} bought {currentProduct.Type}");
+                    currentPerson.Money -= currentProduct.Price;
+                    currentPerson.IsBouthSomething = true;
+                    currentPerson.AddProduct(currentProduct.Type);
+                }
+                else
+                {
+                    Console.WriteLine($"{currentPerson.Name} can't afford {currentProduct.Type}");
+                }
+            }
+            foreach (var person in persons)
+            {
+                if (person.IsBouthSomething)
+                {
+                    Console.WriteLine($"{person.Name} - {string.Join(", ", person.BoughtProducts)}");
+                    
+                }
+                else
+                {
+                    Console.WriteLine($"{person.Name} - Nothing bought");
+                }
+                
+            }   
+        }
+    }
+}

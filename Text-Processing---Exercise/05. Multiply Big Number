@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string num1 = Console.ReadLine();
+            int num2 = int.Parse(Console.ReadLine());
+            string result = string.Empty;
+            int add = 0;
+            for (int i = num1.Length - 1; i >= 0; i--)
+            {
+                int currentNum = num1[i] - 48;
+                int currentResult = currentNum * num2+add;
+                
+                if (i != 0)
+                {
+                    if (currentResult>9)
+                    {
+                        add = currentResult / 10;
+                        result = result.Insert(0, Convert.ToString(currentResult % 10));
+                    }
+                    else
+                    {
+                        result = result.Insert(0, Convert.ToString(currentResult));
+                        add = 0;
+                    }
+                }
+                else
+                {
+                  result=  result.Insert(0, Convert.ToString(currentResult));
+                }
+            }
+            if (BigInteger.Parse(result) == 0)
+            {
+                result = "0";
+            }
+            Console.WriteLine(result);
+
+        }
+    }
+}

@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string inputBannedWords = Console.ReadLine();
+            string[] banndeWords = inputBannedWords.Split(", ",StringSplitOptions.RemoveEmptyEntries);
+            string text = Console.ReadLine();
+            foreach(string word in banndeWords)
+            {
+                while (text.Contains(word))
+                {
+                    text = text.Replace(word, new string('*', word.Length));
+                }
+            }
+            Console.WriteLine(text);
+
+        }
+    }
+}

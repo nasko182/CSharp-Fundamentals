@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Employee
+    {
+        public Employee(string name, double salary)
+        {
+            this.Name = name;
+            this.Salary = salary;
+        }
+        public string Name { get; set; }
+
+        public double Salary { get; set; }
+
+    }
+    class Department
+    {
+        public double TotalSalary { get; set; }
+        public List<Employee> Employees { get; set; } = new List<Employee>();
+        public string DepartmentName { get; set; }
+        public Department(string departmentName)
+        {
+            this.DepartmentName= departmentName;
+        }
+        public void AddNewEmploye(string name, double salary)
+        {
+            Employee employee = new Employee(name, salary);
+            Employees.Add(employee);
+            this.TotalSalary += salary;
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Department> departmentList = new List<Department>();
+            int n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+                string[] Args =input
+                    .Split(' ',StringSplitOptions.RemoveEmptyEntries)
+                    .ToArray();
+                string name = Args[0];
+                double salary = double.Parse(Args[1]);
+                string departmentName = Args[2];
+                if (!departmentList.Any(x=> x.DepartmentName==departmentName))
+                {
+                    Department department = new Department(departmentName);
+                    departmentList.Add(department);
+                }
+                departmentList.Find(department=> department.DepartmentName==departmentName).AddNewEmploye(name,salary);
+            }
+
+            Department departmentWithBestAvarageSalary = departmentList.OrderBy(d => d.TotalSalary / d.Employees.Count()).Last();
+
+            Console.WriteLine($"Highest Average Salary: {departmentWithBestAvarageSalary.DepartmentName}");
+            foreach (var employee in departmentWithBestAvarageSalary.Employees.OrderByDescending(x=> x.Salary))
+            {
+                Console.WriteLine($"{employee.Name} {employee.Salary:f2}");
+            }
+        }
+    }
+}

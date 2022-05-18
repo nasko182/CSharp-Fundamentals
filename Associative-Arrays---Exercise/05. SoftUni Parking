@@ -1,0 +1,53 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string,string> registeredPersons = new Dictionary<string,string>();
+            int n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                string[] cmdArgs = Console.ReadLine().Split();
+                string registerOrNot = cmdArgs[0];
+                string username = cmdArgs[1];
+
+                if (registerOrNot=="register")
+                {
+                string licensePlateNumber = cmdArgs[2];
+                    if (registeredPersons.ContainsKey(username))
+                    {
+                        Console.WriteLine($"ERROR: already registered with plate number {licensePlateNumber}");
+                    }
+                    else
+                    {
+                        registeredPersons[username] = licensePlateNumber;
+                        Console.WriteLine($"{username} registered {licensePlateNumber} successfully");
+                    }
+                }
+                else
+                {
+                    if (!registeredPersons.ContainsKey(username))
+                    {
+                        Console.WriteLine($"ERROR: user {username} not found");
+                    }
+                    else
+                    {
+                        registeredPersons.Remove(username);
+                        Console.WriteLine($"{username} unregistered successfully");
+                    }
+                }
+
+            }
+                foreach (var person in registeredPersons)
+                {
+                    Console.WriteLine($"{person.Key} => {person.Value}");
+                }
+        }
+    }
+}

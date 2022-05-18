@@ -1,0 +1,37 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string command;
+            double totalSum = 0;
+            Console.WriteLine("Bought furniture:");
+            while ((command = Console.ReadLine()) != "Purchase")
+            {
+                string pattern = @">>(?<furniture>[A-Za-z]+)<<(?<price>\d+\.?\d*)!(?<quantity>\d+)";
+
+                Regex regex = new Regex(pattern);
+                MatchCollection matches = regex.Matches(command);
+                foreach (Match item in matches)
+                {
+                    string furniture = item.Groups["furniture"].ToString();
+                    string price = item.Groups["price"].ToString();
+                    string quantity = item.Groups["quantity"].ToString();
+                    totalSum += double.Parse(price)*int.Parse(quantity);
+
+                    Console.WriteLine($"{furniture}");
+                }
+
+            }
+            Console.WriteLine($"Total money spend: {totalSum:f2}");
+        }
+    }
+}

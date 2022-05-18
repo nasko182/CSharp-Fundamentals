@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main()
+        {
+            List<int> inputNums = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
+
+            string command;
+            while ((command = Console.ReadLine()) != "end")
+            {
+                string[] cmdArgs = command.Split(' ');
+               
+                switch (cmdArgs[0])
+                {
+                    case "Add": inputNums.Insert(inputNums.Count , Convert.ToInt32(cmdArgs[1]));break;
+                    case "Remove": inputNums.Remove(Convert.ToInt32(cmdArgs[1])); break;
+                    case "RemoveAt": inputNums.RemoveAt(Convert.ToInt32(cmdArgs[1])); break;
+                    case "Insert": inputNums.Insert(Convert.ToInt32(cmdArgs[2]), Convert.ToInt32(cmdArgs[1])); break;
+                }
+            }
+            
+                Console.WriteLine(String.Join(' ', inputNums));
+        }
+    }
+}

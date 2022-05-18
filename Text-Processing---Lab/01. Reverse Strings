@@ -1,0 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            string command;
+            while ((command = Console.ReadLine()) != "end")
+            {
+                char[] word = command.ToCharArray();
+                string reversedWord = new string(word.Reverse().ToArray());
+                Console.WriteLine($"{new string (word)} = {reversedWord}");
+            }
+        }
+    }
+}

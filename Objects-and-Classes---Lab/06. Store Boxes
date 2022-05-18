@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Item
+    {
+        public Item(string name, double price)
+        {
+            this.name = name;
+            this.price = price;
+        }
+        public string name { get; set; }
+        public double price { get; set; }
+    }
+    class Box
+    {
+        public Box(int serialNumber,Item item, int Quantity )
+        {
+            this.serialNumber = serialNumber;
+            this.name = item.name;
+            this.itemQuantity=Quantity;
+            this.priceForABox= Quantity*item.price;
+            this.price = item.price;
+        }
+        public int serialNumber { get; set; }
+        public string name { get; set; }
+        public int itemQuantity { get; set; }
+        public double priceForABox { get; set; }
+        public double price { get; set; }
+
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+           
+                List<Box> boxes = new List<Box>();
+            string command;
+            while ((command = Console.ReadLine()) != "end")
+            {
+                string[] cmdArgs = command.Split();
+                Item item = new Item(cmdArgs[1], Convert.ToDouble(cmdArgs[3]));
+                Box box = new Box(Convert.ToInt32(cmdArgs[0]), item, int.Parse(cmdArgs[2]));
+                boxes.Add(box);
+            }
+            List<Box> orderedBoxes = new List<Box>();
+             orderedBoxes =   boxes.OrderByDescending(box => box.priceForABox).ToList();
+
+            foreach (Box box in orderedBoxes)
+            {
+                Console.WriteLine($"{box.serialNumber}");
+                Console.WriteLine($"-- { box.name} - ${ box.price:f2}: { box.itemQuantity}");
+                Console.WriteLine($"-- ${ box.priceForABox:f2}");
+            }
+
+
+            
+        }
+    }
+}

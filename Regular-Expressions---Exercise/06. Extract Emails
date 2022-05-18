@@ -1,0 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            string pattern = @"^(?<email>[A-Za-z0-9]+[\w\.\-_]*[A-Za-z0-9]@[A-Za-z-]{2,}\.([A-Za-z-]){2,}(\.[A-Za-z\-]{2,}))*| (?<email>[A-Za-z0-9]+[\w\.\-_]*[A-Za-z0-9]@[A-Za-z-]{2,}\.([A-Za-z-]){2,}(\.[A-Za-z\-]{2,})*)";
+
+            MatchCollection matches = Regex.Matches(input, pattern);
+            List<string> emails = matches
+                .Select(m => m.Groups["email"].Value).ToList();
+            emails = emails.FindAll(e => e != "");
+                Console.WriteLine(string.Join('\n', emails));
+        }
+    }
+}

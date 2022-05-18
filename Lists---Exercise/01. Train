@@ -1,0 +1,43 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main()
+        {
+            List<int> wagons = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
+            int maxPassangers = int.Parse(Console.ReadLine());
+
+            string command;
+            while ((command = Console.ReadLine()) != "end")
+            {
+                string[] cmdArgs = command.Split(' ').ToArray();
+                if (cmdArgs[0] == "Add")
+                {
+                    wagons.Insert(wagons.Count, Convert.ToInt32(cmdArgs[1]));
+                }
+                else
+                {
+                    if (Convert.ToInt32(cmdArgs[0]) > maxPassangers)
+                    {
+                        continue;
+                    }
+                    if (Convert.ToInt32(cmdArgs[0]) + wagons[wagons.FindIndex(x => x + Convert.ToInt32(cmdArgs[0]) <= maxPassangers)] > maxPassangers)
+                    {
+                        continue;
+                    }
+                    wagons[wagons.FindIndex(x => x + Convert.ToInt32(cmdArgs[0]) <= maxPassangers)] += Convert.ToInt32(cmdArgs[0]);
+                }
+            }
+            Console.WriteLine(String.Join(' ', wagons));
+        }
+
+    }
+}

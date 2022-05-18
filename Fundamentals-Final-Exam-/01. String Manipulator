@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            string command;
+            while ((command = Console.ReadLine()) != "End")
+            {
+                string[] cmdArgs = command.Split();
+                string action = cmdArgs[0];
+                if (action == "Translate")
+                {
+                    input = Translate(cmdArgs, input);
+                    Console.WriteLine(input);
+
+                }
+                else if (action == "Includes")
+                {
+                    Includes(cmdArgs, input);
+                }
+                else if (action == "Start")
+                {
+                    Start(cmdArgs, input);
+                }
+                else if (action == "Lowercase")
+                {
+                    input = Lowercase(input);
+                    Console.WriteLine(input);
+                }
+                else if (action == "FindIndex")
+                {
+                    FindIndex(cmdArgs, input);
+                }
+                else if (action == "Remove")
+                {
+                    input = Remove(cmdArgs, input);
+                    Console.WriteLine(input);
+                }
+
+            }
+        }
+        static string Translate(string[] cmdArgs, string input)
+        {
+            string ch = cmdArgs[1];
+            string replacement = cmdArgs[2];
+            input = input.Replace(ch, replacement);
+            return input;
+        }
+
+        static void Includes(string[] cmdArgs, string input)
+        {
+            string substring = cmdArgs[1];
+
+            if (input.Contains(substring))
+            {
+                Console.WriteLine("True");
+            }
+            else
+            {
+                Console.WriteLine("False");
+            }
+        }
+
+        static void Start(string[] cmdArgs, string input)
+        {
+            string substring = cmdArgs[1];
+            int lenght = substring.Length;
+            string inputStart = input.Substring(0, lenght);
+            if (substring == inputStart)
+            {
+                Console.WriteLine("True");
+            }
+            else
+            {
+                Console.WriteLine("False");
+            }
+        }
+
+        static string Lowercase(string input)
+        {
+            input = input.ToLower();
+            return input;
+        }
+
+        static void FindIndex(string[] cmdArgs, string input)
+        {
+            string ch = cmdArgs[1];
+            int index = input.LastIndexOf(ch);
+            Console.WriteLine(index);
+        }
+
+        static string Remove(string[] cmdArgs, string input)
+        {
+            int startIndex = int.Parse(cmdArgs[1]);
+            int lenght = int.Parse(cmdArgs[2]);
+            input = input.Remove(startIndex, lenght);
+            return input;
+        }
+    }
+}

@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+                string pattern = @"^@{1}#+(?<barcode>[A-Z][A-Za-z0-9]{4,}[A-Z])@{1}#+$";
+                Match match = Regex.Match(input, pattern);
+                if (match.Success)
+                {
+                    string barcode = match.Groups["barcode"].Value;
+                    StringBuilder group = new StringBuilder();
+                    foreach (char ch in barcode)
+                    {
+                       if (char.IsDigit(ch))
+                        {
+                            group.Append(ch);
+                        }
+                    }
+                    if (group.Length==0)
+                    {
+                        group.Append("00");
+                    }
+                    Console.WriteLine($"Product group: {group.ToString()}");
+                }
+                else
+                {
+                    Console.WriteLine($"Invalid barcode");
+                }
+            }
+
+        }
+    }
+}

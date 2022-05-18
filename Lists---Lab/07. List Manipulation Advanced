@@ -1,0 +1,87 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main()
+        {
+            List<int> inputNums = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
+
+            bool IsChange = false;
+            string command;
+            while ((command = Console.ReadLine()) != "end")
+            {
+                string[] cmdArgs = command.Split(' ');
+               
+                switch (cmdArgs[0])
+                {
+                    case "Add": inputNums.Insert(inputNums.Count, Convert.ToInt32(cmdArgs[1])); IsChange = true ; break;
+                    case "Remove": inputNums.Remove(Convert.ToInt32(cmdArgs[1])); IsChange = true; break;
+                    case "RemoveAt": inputNums.RemoveAt(Convert.ToInt32(cmdArgs[1])); IsChange = true; break;
+                    case "Insert": inputNums.Insert(Convert.ToInt32(cmdArgs[2]), Convert.ToInt32(cmdArgs[1])); IsChange = true; break;
+                    case "Contains": ChekIsListContainsNUmber(inputNums, Convert.ToInt32(cmdArgs[1]));  break;
+                    case "PrintEven": PrintOddOrEven(cmdArgs[0],inputNums);  break;
+                    case "PrintOdd": PrintOddOrEven(cmdArgs[0],inputNums);  break;
+                    case "GetSum": GetSum(inputNums); break;
+                    case "Filter": Filter(inputNums,cmdArgs[1], Convert.ToInt32(cmdArgs[2])); break;
+                }
+            }
+            if (IsChange)
+            {
+                Console.WriteLine(String.Join(' ', inputNums));
+            }
+        }
+
+        static void ChekIsListContainsNUmber (List<int> numbers, int num)
+        {
+            if (numbers.Contains(num))
+            {
+                Console.WriteLine("Yes"); 
+            }
+            else
+            {
+                Console.WriteLine("No such number");
+            }
+        }
+        static void PrintOddOrEven(string command ,List<int> numbers)
+        {
+            List<int> copy = numbers.ToList();
+
+            if (command=="PrintOdd")
+            {
+                copy.RemoveAll(x => x % 2 == 0);
+            }
+            else
+            {
+                copy.RemoveAll(x => x % 2 != 0);
+            }
+            Console.WriteLine(String.Join(' ', copy));
+        }
+        static void GetSum (List<int> numbers)
+        {
+            Console.WriteLine(numbers.Sum());
+        }
+        static void Filter(List<int> numbers, string condition,int number)
+        {
+            List<int> copy = numbers.ToList();
+            switch (condition)
+            {
+                case "<": copy.RemoveAll(x => x >=number); break;
+                case ">": copy.RemoveAll(x => x <=number); break;
+                case "<=": copy.RemoveAll(x => x >number); break;
+                case ">=": copy.RemoveAll(x => x <number); break;
+                default:
+                    break;
+            }
+            Console.WriteLine(String.Join(' ', copy));
+        }
+        
+    }
+}

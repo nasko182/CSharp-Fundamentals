@@ -1,0 +1,42 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] inputData = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            string[] lowerCaseInputData = inputData.Select(x => x.ToLower()).ToArray();
+
+            Dictionary<string, int> output = new Dictionary<string, int>();
+
+            foreach (var input in lowerCaseInputData)
+            {
+                if (output.Keys.Contains(input))
+                {
+                    output[input]++;
+                }
+                else
+                {
+                    output.Add(input, 1);
+                }
+            }
+
+            Dictionary<string, int> result = new Dictionary<string, int>();
+            foreach (var item in output)
+            {
+                if (item.Value % 2 != 0)
+                {
+                    Console.Write($"{item.Key} ");
+                }
+            }
+        }
+    }
+}

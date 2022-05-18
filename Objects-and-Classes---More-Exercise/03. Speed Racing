@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Car
+    {
+        public string Model { get; set; }
+
+        public double FuelAmount { get; set; }
+
+        public double ConsumationPerKilometer { get; set; }
+
+        public int TraveledDistance { get; set; } = 0;
+
+        public Car(string model, double fuelAmount, double consumationPerKilometer)
+        {
+            this.Model = model;
+            this.FuelAmount = fuelAmount;
+            this.ConsumationPerKilometer = consumationPerKilometer;
+        }
+
+        public void DriveIfItsPosible(int amountOfKm)
+        {
+            if (amountOfKm * ConsumationPerKilometer <= FuelAmount)
+            {
+                this.FuelAmount -= amountOfKm * ConsumationPerKilometer;
+                this.TraveledDistance += amountOfKm;
+            }
+            else
+            {
+                Console.WriteLine("Insufficient fuel for the drive");
+            }
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Car> cars = new List<Car>();
+            int n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+                string[] Args = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string model = Args[0];
+                double fuelAmount = Convert.ToDouble(Args[1]);
+                double consumationPerKm = Convert.ToDouble(Args[2]);
+
+                Car car = new Car(model, fuelAmount, consumationPerKm);
+                cars.Add(car);
+            }
+            string command;
+            while ((command = Console.ReadLine()) != "End")
+            {
+                string[] cmdArgs = command.Split();
+                string carModel = cmdArgs[1];
+                int amoutOfKm = Convert.ToInt32(cmdArgs[2]);
+                Car currentcar = cars.Find(car=>car.Model == carModel);
+                currentcar.DriveIfItsPosible(amoutOfKm);
+            }
+            foreach (var car in cars)
+            {
+                Console.WriteLine($"{car.Model} {car.FuelAmount:f2} {car.TraveledDistance}");
+            }
+        }
+    }
+}

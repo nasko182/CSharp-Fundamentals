@@ -1,0 +1,65 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            int attackedPlanetsCount = 0;
+            int destroyedPlanetsCount = 0;
+            List<string> destroyerPlanetsNames = new List<string>();
+            List<string> attackedPlanetsNames = new List<string>();
+            for (int i = 0; i < n; i++)
+            {
+                string message = Console.ReadLine(); 
+                string patternKey = @"[STARstar]";
+                MatchCollection keyCount = Regex.Matches(message, patternKey);
+                int key = keyCount.Count;
+                string messageWihoutKey = RemoveKey(message,key);
+                string patternDecrypt = @"\@(?<planetName>[A-Za-z]+)[^\@\-\!\:>]*?:(?<population>\d+)[^\@\-\!\:>]*?\!(?<attackType>[A]|[D])\![^\@\-\!\:>]*?->(?<soliderCount>\d+)";
+                Match match = Regex.Match(messageWihoutKey,patternDecrypt);
+                string planetName = match.Groups["planetName"].Value;
+                string type = match.Groups["attackType"].Value;
+                if (type == "A")
+                {
+                    attackedPlanetsCount++;
+                    attackedPlanetsNames.Add(planetName);
+                }
+                else if (type == "D")
+                {
+                    destroyedPlanetsCount++;
+                    destroyerPlanetsNames.Add(planetName);
+                }
+            }
+            Console.WriteLine($"Attacked planets: {attackedPlanetsCount}");
+            foreach (var planet in attackedPlanetsNames.OrderBy(p => p))
+            {
+                Console.WriteLine($"-> {planet}");
+            }
+            Console.WriteLine($"Destroyed planets: {destroyedPlanetsCount}");
+            foreach (var planet in destroyerPlanetsNames.OrderBy(p => p))
+            {
+                Console.WriteLine($"-> {planet}");
+            }
+
+        }
+        static string RemoveKey (string message,int key)
+        {
+            string messageWihoutKey = string.Empty;
+            foreach (char ch in message)
+            {
+                char c = (char)(ch - key);
+                messageWihoutKey+=c;
+            }
+            return messageWihoutKey;
+
+        }
+    }
+}

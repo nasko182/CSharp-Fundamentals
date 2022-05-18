@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine()
+                 .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                 .Select(int.Parse)
+                 .ToList();
+            string command;
+            while ((command = Console.ReadLine()) != "End")
+            {
+                string[] cmdArgs = command.Split(' ');
+                string cmd = cmdArgs[0];
+                switch (cmd)
+                {
+                    case "Add": Add(nums, Convert.ToInt32(cmdArgs[1])); break;
+                    case "Insert": Insert(nums, Convert.ToInt32(cmdArgs[1]), Convert.ToInt32(cmdArgs[2])); break;
+                    case "Remove": Remove(nums, Convert.ToInt32(cmdArgs[1])); break;
+                    case "Shift": Shift(nums, cmdArgs[1], Convert.ToInt32(cmdArgs[2])); break;
+                    default:
+                        break;
+                }
+            }
+                Console.WriteLine(string.Join(' ', nums));
+        }
+        static void Add(List<int> nums, int num)
+        {
+            nums.Insert(nums.Count, num);
+        }
+        static void Insert(List<int> nums, int num, int index)
+        {
+            if (index > nums.Count)
+            {
+                Console.WriteLine("Invalid index");
+                return;
+            }
+            nums.Insert(index, num);
+        }
+        static void Remove(List<int> nums, int index)
+        {
+            if (index>nums.Count)
+            {
+                Console.WriteLine("Invalid index");
+                return;
+            }
+            nums.RemoveAt(index);
+        }
+        static void Shift(List<int> nums, string arg, int count)
+        {
+            if (arg == "left")
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    nums.Insert(nums.Count, nums[0]);
+                    nums.RemoveAt(0);
+                }
+            }
+            else if (arg == "right")
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    nums.Insert(0, nums[nums.Count-1]);
+                    nums.RemoveAt(nums.Count-1);
+                }
+            }
+        }
+    }
+}

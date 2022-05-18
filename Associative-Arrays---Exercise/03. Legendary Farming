@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, string> legendaryItems = new Dictionary<string, string>();
+            legendaryItems.Add("shards", "Shadowmourne");
+            legendaryItems.Add("fragments", "Valanyr");
+            legendaryItems.Add("motes", "Dragonwrath");
+
+            Dictionary<string, int> keyMaterials = new Dictionary<string, int>();
+            keyMaterials.Add("shards", 0);
+            keyMaterials.Add("motes", 0);
+            keyMaterials.Add("fragments", 0);
+            Dictionary<string, int> junk = new Dictionary<string, int>();
+
+            string command;
+            while ((command = Console.ReadLine()) != string.Empty)
+            {
+                bool isCafted = false;
+                string[] materials = command.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToArray();
+                for (int i = 0; i < materials.Length; i += 2)
+                {
+                    int quantity = int.Parse(materials[i]);
+                    string materialType = materials[i + 1];
+                    materialType = materialType.ToLower();
+
+                    if (legendaryItems.ContainsKey(materialType))
+                    {
+                        keyMaterials[materialType] += quantity;
+                    }
+                    else
+                    {
+                        if (!junk.ContainsKey(materialType))
+                        {
+                            junk[materialType] = 0;
+                        }
+                        junk[materialType] += quantity;
+                    }
+                    if (keyMaterials.ContainsKey(materialType))
+                    {
+                        if (keyMaterials[materialType] >= 250)
+                        {
+                            isCafted = true;
+                            Console.WriteLine($"{legendaryItems[materialType]} obtained!");
+                            keyMaterials[materialType] -= 250;
+                            break;
+                        }
+                    }
+                }
+                if (isCafted)
+                {
+                    break;
+                }
+            }
+            foreach (var material in keyMaterials)
+            {
+                Console.WriteLine($"{material.Key}: {material.Value}");
+            }
+            foreach(var material in junk)
+            {
+                Console.WriteLine($"{material.Key}: {material.Value}");
+            }
+
+
+        }
+    }
+}

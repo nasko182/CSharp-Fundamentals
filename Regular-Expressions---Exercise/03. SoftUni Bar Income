@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string command;
+            double totalPrice = 0;
+            while ((command = Console.ReadLine()) != "end of shift")
+            {
+                string pattern = @"%(?<name>[A-Z][a-z]+)%[^\||\$|\%|\.]*?<(?<product>\w+)>[^\||\$|\%|\.]*?\|(?<count>\d+)\|[^\||\$|\%|\.]*?(?<price>\d+\.?\d*)\$"; 
+                Match match = Regex.Match(command, pattern);
+                if (match.Success)
+                {
+                    string name = match.Groups["name"].Value;
+                    string product = match.Groups["product"].Value;
+                    int quantity = int.Parse(match.Groups["count"].Value);
+                    double price = double.Parse(match.Groups["price"].Value);
+                    double currentTotalPrice = quantity * price;
+                    totalPrice += currentTotalPrice;
+                    Console.WriteLine($"{name}: {product} - {currentTotalPrice:f2}");
+                }
+            }
+            Console.WriteLine($"Total income: {totalPrice:f2}");
+        }
+    }
+}

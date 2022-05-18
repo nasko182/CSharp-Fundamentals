@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main()
+        {
+            List<int> firstInput = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
+            List<int> secondInput = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
+            List<int> result = new List<int>();
+
+
+            int diff = Math.Abs(firstInput.Count - secondInput.Count);
+            List<int> restOfList = new List<int>();
+            if (firstInput.Count > secondInput.Count)
+            {
+                for (int i = firstInput.Count - diff; i < firstInput.Count; i++)
+                {
+                    restOfList.Add(firstInput[i]);
+                }
+                for (int i = 0; i < secondInput.Count; i++)
+                {
+                    result.Add(firstInput[i]);
+                    result.Add(secondInput[i]);
+                }
+            }
+            else
+            {
+                for (int i = secondInput.Count - diff; i < secondInput.Count; i++)
+                {
+                    restOfList.Add(secondInput[i]);
+                }
+                for (int i = 0; i < firstInput.Count; i++)
+                {
+                    result.Add(firstInput[i]);
+                    result.Add(secondInput[i]);
+                }
+            }
+
+            result.AddRange(restOfList);
+
+            Console.WriteLine(String.Join(' ', result));
+        }
+
+    }
+}

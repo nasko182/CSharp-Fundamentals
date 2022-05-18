@@ -1,0 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> nums = Console.ReadLine()
+               .Split(('|'), StringSplitOptions.RemoveEmptyEntries)
+               .ToList();
+            nums.Reverse();
+            string num = string.Join(' ', nums);
+            nums = num.Split(' ',StringSplitOptions.RemoveEmptyEntries).ToList();
+            Console.WriteLine(String.Join(' ', nums));
+            
+        }
+
+    }
+}

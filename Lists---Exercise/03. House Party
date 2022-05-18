@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int numOfCommand = int.Parse(Console.ReadLine());
+            List<string> guestList = new List<string>();
+            for (int i = 0; i < numOfCommand; i++)
+            {
+                string command = Console.ReadLine();
+                string[] cmdArgs = command.Split();
+                string name = cmdArgs[0];
+                var isThere = guestList.Find(x => x == name);
+                if (cmdArgs[2]!="not")
+                {
+                    if (isThere==name)
+                    {
+                        Console.WriteLine($"{ name} is already in the list!");
+                        continue;
+                    }
+                    else
+                    {
+                        guestList.Add(name);
+                    }
+                }
+                else
+                {
+                    if (isThere==name)
+                    {
+                        guestList.Remove(name);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{name} is not in the list!");
+                    }
+                }
+            }
+            for (int i = 0; i < guestList.Count; i++)
+            {
+                Console.WriteLine(guestList[i]);
+            }
+
+        }
+    }
+}

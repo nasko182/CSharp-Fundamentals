@@ -1,0 +1,101 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Engine
+    {
+        public Engine(int speed, int power)
+        {
+            this.Speed = speed;
+            this.Power = power;
+        }
+
+        public int Speed { get; set; }
+
+        public int Power { get; set; }
+    }
+    class Cargo
+    {
+        public Cargo(int weight, string type)
+        {
+            this.Type = type;
+            this.Weight = weight;
+        }
+
+        public int Weight { get; set; }
+
+        public string Type { get; set; }
+    }
+    class Car
+    {
+        public Car(string model, int speed, int power,int weight, string type)
+        {
+            this.Model = model;
+            this.EngineProp = new Engine(speed, power);
+            this.CargoProp = new Cargo(weight, type);
+        }
+        public string Model { get; set; }
+
+        public Engine EngineProp { get; set; }
+
+        public Cargo CargoProp { get; set; }
+
+        public void AddEngine(int speed,int power)
+        {
+            Engine engine = new Engine(speed, power);
+        }
+
+        public void AddCargo(int weight,string type)
+        {
+            Cargo cargo = new Cargo(weight,type);
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Car> fragileCars = new List<Car>();
+            List<Car> flambleCars = new List<Car>();
+            int n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+                string[] Args = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string model = Args[0];
+                int speed = int.Parse(Args[1]);
+                int power = int.Parse(Args[2]);
+                int weight = int.Parse(Args[3]);
+                string type = Args[4];
+                Car car = new Car(model, speed, power, weight, type);
+                if (type == "fragile"&& weight<1000)
+                {
+                    fragileCars.Add(car);
+                }
+                else if(type =="flamable" && power>250)
+                {
+                    flambleCars.Add(car);
+                }
+            }
+                string command = Console.ReadLine();
+
+                if (command== "fragile")
+                {
+                    foreach (var item in fragileCars)
+                    {
+                        Console.WriteLine($"{item.Model}");
+                    }
+                }
+                else
+                {
+                    foreach(var item in flambleCars)
+                    {
+                        Console.WriteLine($"{item.Model}");
+                    }
+                }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        { 
+            Dictionary<string,int> resources = new Dictionary<string,int>();
+            string command;
+            while ((command = Console.ReadLine()) != "stop")
+            {
+                int quantity = int.Parse(Console.ReadLine());
+
+                if (!resources.ContainsKey(command))
+                {
+                    resources[command] = 0;
+                }
+                resources[command]+=quantity;
+            }
+            foreach (KeyValuePair<string,int> kvp in resources)
+            {
+                Console.WriteLine($"{kvp.Key} -> {kvp.Value} ");
+            }
+        }
+    }
+}

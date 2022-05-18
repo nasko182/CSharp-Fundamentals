@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Truck
+    {
+        public Truck(string brand, string model, int weight)
+        {
+            this.Brand = brand;
+            this.Model = model;
+            this.Weight = weight;
+        }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public int Weight { get; set; }
+    }
+    class Car
+    {
+        public Car(string brand, string model, int horsePower)
+        {
+            this.Brand = brand;
+            this.Model = model;
+            this.HorsePower = horsePower;
+        }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public int HorsePower { get; set; }
+
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Truck> trucks = new List<Truck>();
+            List<Car> cars = new List<Car>();
+            string command;
+            while ((command = Console.ReadLine()) != "end")
+            {
+                string[] cmdArgs = command.Split('/');
+                string type = cmdArgs[0];
+                string brand= cmdArgs[1];
+                string model= cmdArgs[2];
+                int finalParam = int.Parse(cmdArgs[3]);
+
+                if (type=="Truck")
+                {
+                    Truck truck = new Truck(brand, model, finalParam);
+                    trucks.Add(truck);
+                }
+                else if (type == "Car")
+                {
+                    Car car = new Car(brand, model,finalParam);
+                    cars.Add(car);
+                }
+            }
+            if (cars.Count > 0)
+            {
+                List<Car> orderedCars = cars.OrderBy(car=> car.Brand).ToList();
+                    Console.WriteLine("Cars:");
+                foreach ( Car car in orderedCars)
+                {
+                    Console.WriteLine($"{car.Brand}: {car.Model} - {car.HorsePower}hp");
+                }
+            }
+            if (trucks.Count>0)
+            {
+                List<Truck> orderedTrucks = trucks.OrderBy(trucks => trucks.Brand).ToList();
+                    Console.WriteLine("Trucks:");
+                foreach( Truck truck in orderedTrucks)
+                {
+                    Console.WriteLine($"{truck.Brand}: {truck.Model} - {truck.Weight}kg");
+                }
+            }
+        }
+    }
+}

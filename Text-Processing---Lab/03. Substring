@@ -1,0 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string word = Console.ReadLine();
+            string input = Console.ReadLine();
+            while (input.Contains(word))
+            {
+                int index = input.IndexOf(word);
+                input = input.Remove(index, word.Length);
+            }
+            Console.WriteLine(input);
+        }
+    }
+}

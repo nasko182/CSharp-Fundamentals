@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            decimal sum = 0m;
+            string typeOfClient = null;
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input== "special")
+                {
+                    typeOfClient = "special";
+                    break; ;
+                }
+                else if ( input == "regular")
+                {
+                    typeOfClient = "regular";
+                    break;
+                }
+                decimal price = Convert.ToDecimal(input);
+                if (price <0 )
+                {
+                    Console.WriteLine("Invalid price!");
+                    continue;
+                }
+                sum += price;
+            }
+            if (sum==0m)
+            {
+                Console.WriteLine("Invalid order!");
+            }
+            else
+            {
+                Console.WriteLine("Congratulations you've just bought a new computer!");
+                Console.WriteLine($"Price without taxes: {sum}:f2");
+                Console.WriteLine($"Taxes: {sum*0.2m}:f2");
+                Console.WriteLine("-----------");
+                if (typeOfClient == "special")
+                {
+                    Console.WriteLine($"Total price: {(sum + (sum * 0.2m)) * 0.9m:f2}");
+                }
+                else
+                {
+                    Console.WriteLine($"Total price: {(sum + (sum * 0.2m)):f2}");
+                }
+            }
+
+        }
+
+    }
+}

@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] partipatios = Console.ReadLine().Split(", ");
+            string pattern = @"\w";
+            string command;
+            Dictionary<string , int> runners = new Dictionary<string , int>();
+            while ((command = Console.ReadLine()) != "end of race")
+            {
+                MatchCollection match = Regex.Matches(command, pattern);
+                StringBuilder name = new StringBuilder();
+                int km = 0;
+                foreach (Match m in match)
+                {
+                    char ch = m.ToString()[0];
+                    if (Char.IsLetter(ch))
+                    {
+                        name.Append(ch);
+                    }
+                    else
+                    {
+                        km += int.Parse(ch.ToString());
+                    }
+                }
+                if (partipatios.Any(n=>n==name.ToString()))
+                {
+                    if (runners.Keys.Any(n => n == name.ToString()))
+                    {
+                        runners[name.ToString()] += km;
+                    }
+                    else
+                    {
+                        runners[name.ToString()] = km;
+                    }
+                }
+            }
+            int counter = 0;
+            string[] names = new string[runners.Count];
+            foreach(var runner in runners.OrderByDescending(x => x.Value))
+            {
+                names[counter] = runner.Key;
+                counter++;
+            }
+            Console.WriteLine($"1st place: {names[0]}");
+            Console.WriteLine($"2nd place: {names[1]}");
+            Console.WriteLine($"3rd place: {names[2]}");
+
+        }
+    }
+}

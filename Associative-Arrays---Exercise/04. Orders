@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        class Product
+        {
+            public Product(string type, double price, int quantity)
+            {
+                this.Type = type;
+                this.Price = price;
+                this.Quantity = quantity;
+            }
+            public string Type { get; set; }
+
+            public double Price { get; set; } = 0;
+
+            public int Quantity { get; set; } = 0;
+        }
+        static void Main(string[] args)
+        {
+            List<Product> products = new List<Product>();
+            string command;
+            while ((command = Console.ReadLine()) != "buy")
+            {
+                string[] cmdArgs = command.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string type = cmdArgs[0];
+                double price = double.Parse(cmdArgs[1]);
+                int quantity = int.Parse(cmdArgs[2]);
+
+                if (products.Any(p => p.Type == type))
+                {
+                    Product currentProduct = products.Find(p => p.Type == type);
+                    currentProduct.Price = price;
+                    currentProduct.Quantity += quantity;
+                }
+                else
+                {
+                    Product product = new Product(type, price, quantity);
+                    products.Add(product);
+                }
+            }
+            Dictionary<string,double> productsTotalPrices = new Dictionary<string,double>();
+            foreach (Product product in products)
+            {
+                productsTotalPrices.Add(product.Type, (product.Price*product.Quantity));   
+            } 
+            foreach (var product in productsTotalPrices)
+            {
+                Console.WriteLine($"{product.Key} -> {product.Value:f2}");
+            }
+        }
+    }
+}

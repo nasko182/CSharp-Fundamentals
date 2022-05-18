@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            input = input.Replace(" ", "");
+            string[] demonsNames = input
+                .Split(",");
+
+            foreach (var demonName in demonsNames.OrderBy(n => n))
+            {
+                int demonHelth = GetDemonHelth(demonName);
+                double demonDemage = GetDemonDemage(demonName);
+                Console.WriteLine($"{demonName} - {demonHelth} health, {demonDemage:f2} damage");
+            }
+        }
+        static int GetDemonHelth(string demonName)
+        {
+            string patternHelth = @"[^\d\+\-\*\/\.]";
+            MatchCollection matches = Regex.Matches(demonName, patternHelth);
+            int totalHelth = 0;
+            foreach (Match match in matches)
+            {
+                char ch = match.Value[0];
+                totalHelth += ch;
+            }
+            return totalHelth;
+
+        }
+
+        static double GetDemonDemage(string demonName)
+        {
+            string patternDamege = @"-*\d+\.*\d*";
+            string patternSigns = @"[\*|\/]";
+            double totalDamege = 0;
+            MatchCollection nums = Regex.Matches(demonName, patternDamege);
+            MatchCollection signs = Regex.Matches(demonName, patternSigns);
+            foreach (Match match in nums)
+            {
+                if (true)
+                {
+                    double num = double.Parse(match.Value);
+                    totalDamege += num;
+                }
+            }
+            foreach (Match match in signs)
+            {
+                char ch = match.Value[0];
+                if (ch == '/')
+                {
+                    totalDamege /= 2;
+                }
+                else if (ch == '*')
+                {
+                    totalDamege *= 2;
+                }
+            }
+            return totalDamege;
+        }
+    }
+}

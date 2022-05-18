@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> firstPlayerHand = Console.ReadLine()
+               .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+               .Select(int.Parse)
+               .ToList();
+            List<int> secondPlayerHand = Console.ReadLine()
+               .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+               .Select(int.Parse)
+               .ToList();
+            while (true)
+            {
+                if (firstPlayerHand.Count == 0)
+                {
+                    Console.WriteLine($"Second player wins! Sum: { secondPlayerHand.Sum()}");
+                    return;
+                }
+                else if (secondPlayerHand.Count == 0)
+                {
+                    Console.WriteLine($"First player wins! Sum: {firstPlayerHand.Sum()}");
+                    return ;
+                }
+                if (firstPlayerHand[0]>secondPlayerHand[0])
+                {
+                    firstPlayerHand.Insert(firstPlayerHand.Count, secondPlayerHand[0]);
+                    firstPlayerHand.Insert(firstPlayerHand.Count, firstPlayerHand[0]);
+                    firstPlayerHand.RemoveAt(0);
+                    secondPlayerHand.RemoveAt(0);
+                }
+                else if (firstPlayerHand[0] < secondPlayerHand[0])
+                {
+                    secondPlayerHand.Insert(secondPlayerHand.Count, firstPlayerHand[0]);
+                    secondPlayerHand.Insert(secondPlayerHand.Count, secondPlayerHand[0]);
+                    firstPlayerHand.RemoveAt(0);
+                    secondPlayerHand.RemoveAt(0);
+                }
+                else if (firstPlayerHand[0]==firstPlayerHand[0])
+                {
+                    secondPlayerHand.RemoveAt(0);
+                    firstPlayerHand.RemoveAt(0);
+                }
+            }
+
+        }
+
+    }
+}

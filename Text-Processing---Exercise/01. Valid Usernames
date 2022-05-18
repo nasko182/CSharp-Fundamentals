@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] usernames = Console.ReadLine().Split(", ");
+            List<string> validUsernemas = new List<string>();
+            foreach (string username in usernames)
+            {
+                if (username.Length > 2 && username.Length < 17)
+                {
+                    bool isValid = true;
+
+                    foreach (char ch in username)
+                    {
+                        if (!Char.IsLetterOrDigit(ch) && ch != '-' && ch != '_')
+                        {
+                            isValid = false;
+                            break;
+                        }
+                    }
+                    if (!isValid)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        validUsernemas.Add(username);
+                    }
+                }
+            }
+            foreach (string username in validUsernemas)
+            {
+                Console.WriteLine(username);
+            }
+        }
+    }
+}

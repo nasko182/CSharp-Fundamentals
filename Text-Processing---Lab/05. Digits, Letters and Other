@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            string digits = string.Empty;
+            string letters = string.Empty;
+            string others = string.Empty;
+
+            foreach (char ch in input)
+            {
+                if (char.IsDigit(ch))
+                {
+                    digits = digits + ch;
+                }
+                else if (char.IsLetter(ch))
+                {
+                   letters = letters+ch;
+                }
+                else 
+                {
+                    others = others + ch;
+                }
+                input.Remove(input.IndexOf(ch),1);
+            }
+            Console.WriteLine(digits);
+            Console.WriteLine(letters);
+            Console.WriteLine(others);
+        }
+    }
+}

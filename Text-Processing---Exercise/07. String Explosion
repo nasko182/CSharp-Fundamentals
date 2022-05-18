@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            for (int i = 0; i < input.Length; i++)
+            {
+                char ch = input[i];
+                if (ch == '>')
+                {
+                    int strenght = input[i+1]-48;
+                    int counter = 0;
+                    if (i+strenght<input.Length)
+                    {
+                        for (int k = i + 1; k <= i + strenght; k++)
+                        {
+                            if (input[k] == '>')
+                            {
+                                strenght++;
+                                strenght += input[k + 1]-48;
+                                counter++;
+                                    if (i + strenght >= input.Length)
+                                {
+                                    for (int l = k+1; l < input.Length; l++)
+                                    {
+                                        if (input[l] == '>')
+                                        {
+                                            strenght++;
+                                            strenght += input[l + 1] - 48;
+                                            counter++;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int k = i + 1; k <= input.Length; k++)
+                        {
+                            if (input[k] == '>')
+                            {
+                                strenght++;
+                                strenght += input[k + 1]-48;
+                                counter++;
+                            }
+                        }
+                    }
+                    if (i+strenght<input.Length)
+                    {
+                        input = input.Remove(i + 1, strenght);
+                        input = input.Insert(i + 1, new string('>', counter));
+                        if (counter > 0)
+                        {
+                            i += counter + 1;
+                        }
+                    }
+                    else
+                    {
+                        input = input.Remove(i + 1);
+                        input = input.Insert(i + 1, new string('>', counter));
+                        break;
+
+                    }
+                }
+                
+                    
+
+            }
+            Console.WriteLine(input);
+        }
+    }
+}

@@ -1,0 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string input = Console.ReadLine();
+            string[] path = input.Split('\\');
+            string[] fileExtension = path[path.Length - 1].Split('.');
+            string file = fileExtension[0];
+            string extension = fileExtension[1];
+
+            Console.WriteLine($"File name: {file}");
+            Console.WriteLine($"File extension: {extension}");
+
+
+        }
+    }
+}

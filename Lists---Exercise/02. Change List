@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main()
+        {
+            List<int> nums = Console.ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
+            string command;
+            while ((command = Console.ReadLine()) != "end")
+            {
+                string[] args = command.Split(' ');
+                int element = Convert.ToInt32(args[1]);
+                if (args[0] == "Insert")
+                {
+                    int position = Convert.ToInt32(args[2]);
+                    nums.Insert(position, element);
+                }
+                else
+                {
+                    nums.RemoveAll(x => x == element);
+                }
+            }
+            Console.WriteLine(String.Join(' ', nums));
+
+        }
+
+    }
+}

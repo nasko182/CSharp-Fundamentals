@@ -1,0 +1,106 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        class Follower
+        {
+            public Follower(string username)
+            {
+                this.Username = username;
+                this.Likes = 0;
+                this.Comments = 0;
+            }
+           
+            public string Username { get; set; }
+
+            public int Likes { get; set; }
+
+            public int Comments { get; set; }
+        }
+        static void Main(string[] args)
+        {
+            List<Follower> followers = new List<Follower>();
+            string command;
+            while ((command = Console.ReadLine()) != "Log out")
+            {
+                string[] cmdArgs = command.Split(": ");
+                string action = cmdArgs[0];
+                if (action == "New follower")
+                {
+                    NewFollower(cmdArgs, followers);
+                }
+                else if (action == "Like")
+                {
+                    Like(cmdArgs, followers);
+                }
+                else if (action == "Comment")
+                {
+                    Comment(cmdArgs, followers);
+                }
+                else if (action == "Blocked")
+                {
+                    Blocked(cmdArgs, followers);
+                }
+            }
+            Console.WriteLine(followers.Count+" followers");
+            foreach (Follower follower in followers)
+            {
+                int sumLikesAndComments = follower.Likes+ follower.Comments;
+                Console.WriteLine($"{follower.Username}: {sumLikesAndComments}");
+            }
+        }
+        static void NewFollower(string[] cmdArgs, List<Follower> followers)
+        {
+            string username = cmdArgs[1];
+            if (!followers.Any(f => f.Username == username))
+            {
+                Follower follower = new Follower(username);
+                followers.Add(follower);
+            }
+        }
+
+        static void Like(string[] cmdArgs, List<Follower> followers)
+        {
+            string username = cmdArgs[1];
+            int count = int.Parse(cmdArgs[2]);
+            if (!followers.Any(f=>f.Username==username))
+            {
+                followers.Add(new Follower(username));
+            }
+            Follower currentFollower = followers.Find(f => f.Username == username);
+            currentFollower.Likes += count;
+        }
+
+        static void Comment(string[] cmdArgs, List<Follower> followers)
+        {
+            string username = cmdArgs[1];
+            if (!followers.Any(f => f.Username == username))
+            {
+                followers.Add(new Follower(username));
+            }
+            Follower currentFollower = followers.Find(f => f.Username == username);
+            currentFollower.Comments += 1;
+        }
+
+        static void Blocked(string[] cmdArgs, List<Follower> followers)
+        {
+            string username = cmdArgs[1];
+            if (followers.Any(f => f.Username == username))
+            {
+                Follower currentFollower = followers.Find(f => f.Username == username);
+                followers.Remove(currentFollower);
+            }
+            else
+            {
+                Console.WriteLine($"{username} doesn't exist.");
+            }
+        }
+    }
+}
